@@ -20,13 +20,13 @@ def read(filename):
 
 setup(
     name='opvault',
-    version='0.2.0',
+    version='0.2.1',
     author='Steyn Huizinga',
     author_email='steyn@oblcc.com',
     description='Python library to access 1Password OPVault stores',
     license='GPLv3',
     keywords='opvault',
-    url='http://www.oblcc.com/',
+    url='https://github.com/OblivionCloudControl/opvault',
     provides=['opvault'],
     install_requires=['pycrypto'],
     long_description=read('README'),
