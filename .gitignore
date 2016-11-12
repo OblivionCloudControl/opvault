@@ -1,0 +1,8 @@
+.idea/
+*.pyc
+.DS_Store
+build/
+tests/
+test/
+dist/
+opvault.egg-info/
