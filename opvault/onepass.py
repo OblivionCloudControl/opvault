@@ -163,7 +163,7 @@ class OnePass:
 
         return True
 
-    def load_items(self):
+    def load_items(self, exclude_trashed=False):
         file_glob = os.path.join(self._path, self._profile, 'band_*.js')
 
         self._items = {}
@@ -180,6 +180,8 @@ class OnePass:
         for uuid, item in self._items.items():
             overview = self.item_overview(item)
             if 'title' in overview:
+                if exclude_trashed and 'trashed' in item and item['trashed']:
+                    continue
                 self._item_index[overview['title']] = uuid
 
         return self._items
