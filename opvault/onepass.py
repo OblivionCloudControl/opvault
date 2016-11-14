@@ -13,7 +13,7 @@
 #
 # See https://support.1password.com/opvault-design/ for OPVault Design documentation
 # See https://cache.agilebits.com/security-kb/ for sample data
-# Inspired on https://github.com/sethvoltz/one_pass
+# Inspired by https://github.com/sethvoltz/one_pass
 
 
 from __future__ import print_function
