@@ -49,6 +49,9 @@ class OnePass:
         self._validate_vault()
         self._validate_profile()
 
+    def getItems(self):
+        return self._item_index
+
     def __del__(self):
         self.lock()
 
