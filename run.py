@@ -25,6 +25,22 @@ def main():
     def usage():
         return 'Usage: {0} <path_to_opvault> <item_title>'.format(sys.argv[0])
 
+    def get_username(title):
+        overview, details = vault.get_item(title)
+
+        usernames = [field['value'] for field in details['fields']
+                     if field['designation'] == designation_types.DesignationTypes.USERNAME]
+
+        # Only return username if 1 match is found. Raise exception if not
+        if not usernames or len(usernames) == 0:
+            except_msg = 'No usernames found for item'
+            raise exceptions.OpvaultException('NoUsernameFound', except_msg)
+        elif len(usernames) > 1:
+            except_msg = 'Multiple usernames found for item'
+            raise exceptions.OpvaultException('MultipleUsernamesFound', except_msg)
+
+        return usernames[0]
+
     def get_password(title):
         overview, details = vault.get_item(title)
 
@@ -59,8 +75,14 @@ def main():
 
         # Load all items (not details) and return match for 'title'
         vault.load_items()
-        item_password = get_password(title)
-        print('\nPassword: {0}'.format(item_password))
+        if title == '-l': #List items
+            items = vault.getItems()
+            for x in items:
+                print(x)
+        else:
+            item_password = get_password(title)
+            print('\nUsername: {0}'.format(get_username(title)))
+            print('\nPassword: {0}'.format(item_password))
 
     except exceptions.OpvaultException as e:
         # Ooops, could possibly not decrypt/decode vault

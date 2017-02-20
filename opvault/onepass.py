@@ -49,6 +49,9 @@ class OnePass:
         self._validate_vault()
         self._validate_profile()
 
+    def getItems(self):
+        return self._item_index
+
     def __del__(self):
         self.lock()
 
@@ -112,7 +115,7 @@ class OnePass:
 
     @staticmethod
     def _derive_keys(master_password, salt, iterations):
-        derived_key = hashlib.pbkdf2_hmac('sha512', master_password.encode('utf-8'), salt, iterations)
+        derived_key = hashlib.pbkdf2_hmac('sha512', master_password, salt, iterations)
         key = derived_key[:32]
         hmac = derived_key[32:64]
 
