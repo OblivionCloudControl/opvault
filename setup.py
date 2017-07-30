@@ -31,6 +31,11 @@ setup(
     packages=['opvault'],
     install_requires=['pycrypto'],
     long_description=read('README'),
+    entry_points={
+                  "console_scripts": [
+                      "opvault-cli = opvault.cli:main",
+                                      ]
+                 },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Topic :: Utilities',
