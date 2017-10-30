@@ -6,10 +6,10 @@
 * Install Python dependencies (PyCrypto)
 
 ## Example
-### Sample run.py
-Download the sample data (see below) and execute run.py
+### Sample cli
+Download the sample data (see below) and execute opvault-cli
 ```bash
-$ ./run.py test/onepassword_data YouTube
+$ opvault-cli test/onepassword_data YouTube
 1Password master password:
 
 Password: <password>
