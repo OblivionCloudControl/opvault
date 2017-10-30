@@ -94,9 +94,7 @@ class OnePass:
         salt = bytes(base64.decodestring(self._profile_json['salt'].encode()))
         iterations = self._profile_json['iterations']
 
-        master_password = master_password.encode()
-
-        key, mac_key = self._derive_keys(master_password, salt, iterations)
+        key, mac_key = self._derive_keys(master_password.encode(), salt, iterations)
 
         try:
             self._master_key, self._master_mac_key = self.master_keys(key, mac_key)
