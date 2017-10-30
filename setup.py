@@ -20,7 +20,7 @@ def read(filename):
 
 setup(
     name='opvault',
-    version='0.2.4',
+    version='0.2.5',
     author='Steyn Huizinga',
     author_email='steyn@oblcc.com',
     description='Python library to access 1Password OPVault stores',
