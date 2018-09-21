@@ -29,7 +29,7 @@ def main():
         overview, details = vault.get_item(title)
 
         usernames = [field['value'] for field in details['fields']
-                     if field['designation'] == designation_types.DesignationTypes.USERNAME]
+                     if ('designation' in field) and (field['designation'] == designation_types.DesignationTypes.USERNAME)]
 
         # Only return username if 1 match is found. Raise exception if not
         if not usernames or len(usernames) == 0:
@@ -45,7 +45,7 @@ def main():
         overview, details = vault.get_item(title)
 
         passwords = [field['value'] for field in details['fields']
-                     if field['designation'] == designation_types.DesignationTypes.PASSWORD]
+                     if ('designation' in field) and (field['designation'] == designation_types.DesignationTypes.PASSWORD)]
 
         # Only return password if 1 match is found. Raise exception if not
         if not passwords or len(passwords) == 0:
