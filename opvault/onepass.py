@@ -26,6 +26,7 @@ import struct
 import glob
 import hmac
 from Crypto.Cipher import AES
+from collections import defaultdict
 
 from .exceptions import OpvaultException
 
@@ -44,7 +45,7 @@ class OnePass:
         self._overview_key = self._overview_mac_key = None
 
         self._items = None
-        self._item_index = {}
+        self._item_index = defaultdict(list)
 
         self._validate_vault()
         self._validate_profile()
@@ -179,13 +180,13 @@ class OnePass:
                 except ValueError:
                     pass
 
-        self._item_index = {}
+        self._item_index = defaultdict(list)
         for uuid, item in self._items.items():
             overview = self.item_overview(item)
             if 'title' in overview:
                 if exclude_trashed and 'trashed' in item and item['trashed']:
                     continue
-                self._item_index[overview['title']] = uuid
+                self._item_index[overview['title']].append(uuid)
 
         return self._items
 
@@ -241,16 +242,13 @@ class OnePass:
 
     def get_item(self, title):
         try:
-            uuid = self._item_index[title]
-            item = self._items[uuid]
+            uuids = self._item_index[title]
+            items = [self._items[uuid] for uuid in uuids]
         except KeyError as e:
             except_msg = 'Item with title {0} does not exists'.format(title)
             raise OpvaultException('ItemNotFound', except_msg)
 
-        overview = self.item_overview(item)
-        details = self.item_detail(item)
-
-        return overview, details
+        return [(self.item_overview(item), self.item_detail(item)) for item in items]
 
     @staticmethod
     def decrypt_data(key, iv, data):
