@@ -31,12 +31,13 @@ vault.unlock(master_password=master_password)
 vault.load_items()
 
 title = 'MyApp'
-overview, details = vault.get_item(title)
+matched_items = vault.get_item(title)
 
-password = [field['value'] for field in details['fields']
-            if field['designation'] == designation_types.DesignationTypes.PASSWORD][0]
- 
-print(password)
+for overview, details in matched_items:
+    password = [field['value'] for field in details['fields']
+                if field['designation'] == designation_types.DesignationTypes.PASSWORD][0]
+
+    print(password)
 ```
 
 ## Installation

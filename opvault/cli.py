@@ -26,7 +26,8 @@ def main():
         return 'Usage: {0} <path_to_opvault> <item_title>'.format(sys.argv[0])
 
     def get_username(title):
-        overview, details = vault.get_item(title)
+        # fetch from first match
+        overview, details = vault.get_item(title)[0]
 
         usernames = [field['value'] for field in details['fields']
                      if ('designation' in field) and (field['designation'] == designation_types.DesignationTypes.USERNAME)]
@@ -42,7 +43,8 @@ def main():
         return usernames[0]
 
     def get_password(title):
-        overview, details = vault.get_item(title)
+        # fetch from first match
+        overview, details = vault.get_item(title)[0]
 
         passwords = [field['value'] for field in details['fields']
                      if ('designation' in field) and (field['designation'] == designation_types.DesignationTypes.PASSWORD)]
