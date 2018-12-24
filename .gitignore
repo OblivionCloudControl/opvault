@@ -6,3 +6,4 @@ tests/
 test/
 dist/
 opvault.egg-info/
+.vscode/

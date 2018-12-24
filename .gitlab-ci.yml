@@ -1,0 +1,61 @@
+---
+image: docker:latest
+
+stages:
+  - test
+  - build
+  - upload-test
+  - release
+
+test-2.7:
+  stage: test
+  image: python:2.7-alpine
+  script:
+    - apk add --update py-pip gcc libc-dev
+    - pip install -Ur requirements.txt
+    - pip install pylint
+    - pylint --disable=C1001 opvault/
+
+test-3.7:
+  stage: test
+  image: python:3.7-alpine
+  script:
+    - apk add --update py-pip gcc libc-dev
+    - pip install -Ur requirements.txt
+    - pip install pylint
+    - pylint opvault/
+
+package:
+  stage: build
+  image: python:3.7-alpine
+  artifacts:
+    paths:
+      - dist/*
+    expire_in: 1 week
+  script:
+    - pip install --upgrade setuptools wheel
+    - python3 setup.py sdist bdist_wheel
+
+twine-test:
+  stage: upload-test
+  image: python:3.7-alpine
+  dependencies:
+    - package
+  script:
+    - pip install --upgrade twine
+    - find dist/
+    - twine upload -u $TEST_TWINE_USERNAME -p $TEST_TWINE_PASSWORD --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
+  only:
+    - tags
+
+twine:
+  stage: release
+  image: python:3.7-alpine
+  dependencies:
+    - package
+  script:
+    - pip install --upgrade twine
+    - find dist/
+    - twine upload dist/*
+  only:
+    - tags
