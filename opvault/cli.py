@@ -25,39 +25,38 @@ def main():
     def usage():
         return 'Usage: {0} <path_to_opvault> <item_title>'.format(sys.argv[0])
 
-    def get_username(title):
+    def get_field_items(title, designation_field):
         # fetch from first match
-        overview, details = vault.get_item(title)[0]
+        _overview, details = vault.get_item(title)[0]
 
-        usernames = [field['value'] for field in details['fields']
-                     if ('designation' in field) and (field['designation'] == designation_types.DesignationTypes.USERNAME)]
+        fields = [field['value'] for field in details['fields']
+                  if 'designation' in field and
+                  field['designation'] == designation_field]
 
         # Only return username if 1 match is found. Raise exception if not
-        if not usernames or len(usernames) == 0:
-            except_msg = 'No usernames found for item'
-            raise exceptions.OpvaultException('NoUsernameFound', except_msg)
-        elif len(usernames) > 1:
-            except_msg = 'Multiple usernames found for item'
-            raise exceptions.OpvaultException('MultipleUsernamesFound', except_msg)
+        if not fields or len(fields) == 0:
+            except_msg = 'Field {} found for item'.format(designation_field)
+            raise exceptions.OpvaultException('FieldNotFound', except_msg)
 
-        return usernames[0]
+        return fields
+
+    def get_field_item(title, designation_field):
+        fields = get_field_items(title, designation_field)
+
+        if len(fields) > 1:
+            except_msg = 'Multiple fields found for item'
+            raise exceptions.OpvaultException(
+                'MultipleResultsFound', except_msg)
+
+        return fields[0]
+
+    def get_username(title):
+        return get_field_item(title,
+                              designation_types.DesignationTypes.USERNAME)
 
     def get_password(title):
-        # fetch from first match
-        overview, details = vault.get_item(title)[0]
-
-        passwords = [field['value'] for field in details['fields']
-                     if ('designation' in field) and (field['designation'] == designation_types.DesignationTypes.PASSWORD)]
-
-        # Only return password if 1 match is found. Raise exception if not
-        if not passwords or len(passwords) == 0:
-            except_msg = 'No passwords found for item'
-            raise exceptions.OpvaultException('NoPasswordFound', except_msg)
-        elif len(passwords) > 1:
-            except_msg = 'Multiple passwords found for item'
-            raise exceptions.OpvaultException('MultiplePasswordsFound', except_msg)
-
-        return passwords[0]
+        return get_field_item(title,
+                              designation_types.DesignationTypes.PASSWORD)
 
     # Init Vault
     try:
@@ -77,21 +76,28 @@ def main():
 
         # Load all items (not details) and return match for 'title'
         vault.load_items()
-        if title == '-l': #List items
+        if title == '-l':  # List items
             items = vault.getItems()
             for x in items:
                 print(x)
         else:
+            item_title = get_username(title)
             item_password = get_password(title)
-            print('\nUsername: {0}'.format(get_username(title)))
-            print('\nPassword: {0}'.format(item_password))
+            print('')
+            print('Username: {0}'.format(item_title))
+            print('Password: {0}'.format(item_password))
 
     except exceptions.OpvaultException as e:
         # Ooops, could possibly not decrypt/decode vault
         print('ERROR: {0}'.format(e.error))
+
+    except IndexError:
+        print('Item not found in vault')
+
     finally:
         # We're done, lock the vault
         vault.lock()
+
 
 if __name__ == '__main__':
     main()
