@@ -3,7 +3,7 @@
 ## Prerequisites
 * Python >= 2.7
 * Have a 1Password database
-* Install Python dependencies (PyCrypto)
+* Install Python dependencies (pycryptodome)
 
 ## Example
 ### Sample cli
