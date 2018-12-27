@@ -16,6 +16,15 @@ pylint-2.7:
     - pip install pylint
     - pylint --disable=C1001 opvault/
 
+pylint-3.6:
+  stage: test
+  image: python:3.6-alpine
+  script:
+    - apk add --update py-pip gcc libc-dev
+    - pip install -Ur requirements.txt
+    - pip install pylint
+    - pylint opvault/
+
 pylint-3.7:
   stage: test
   image: python:3.7-alpine
