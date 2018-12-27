@@ -7,3 +7,4 @@ test/
 dist/
 opvault.egg-info/
 .vscode/
+gitlab-runner-*
