@@ -1,9 +1,9 @@
-certifi==2019.3.9
+certifi==2019.9.11
 chardet==3.0.4
 idna==2.8
 Naked==0.1.31
-pycryptodome==3.8.1
-PyYAML==5.1
-requests==2.21.0
+pycryptodome==3.9.0
+PyYAML==5.1.2
+requests==2.22.0
 shellescape==3.4.1
-urllib3==1.24.2
+urllib3==1.25.6
