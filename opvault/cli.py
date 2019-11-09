@@ -36,7 +36,7 @@ def main():
 
         fields = [field['value'] for field in details['fields']
                   if 'designation' in field and
-                  field['designation'] == designation_field]
+                  field['designation'] == designation_field.value]
 
         # Only return username if 1 match is found. Raise exception if not
         if not fields:

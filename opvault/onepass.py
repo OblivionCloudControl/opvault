@@ -106,7 +106,7 @@ class OnePass():
     def is_python31_or_newer():
         """Check if python version >= 3.1"""
         major, minor, _patch = platform.python_version_tuple()
-        return bool((major == 3 and minor > 1) or major > 3)
+        return bool((int(major) == 3 and int(minor) > 1) or int(major) > 3)
 
     def decode_function(self, *args, **kwargs):
         """Decode b64 encoded data"""
