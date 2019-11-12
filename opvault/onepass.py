@@ -105,7 +105,9 @@ class OnePass():
     @staticmethod
     def is_python31_or_newer():
         """Check if python version >= 3.1"""
-        major, minor, _patch = platform.python_version_tuple()
+        major_str, minor_str, _patch_str = platform.python_version_tuple()
+        major = int(major_str)
+        minor = int(minor_str)
         return bool((major == 3 and minor > 1) or major > 3)
 
     def decode_function(self, *args, **kwargs):
