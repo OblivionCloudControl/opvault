@@ -51,6 +51,7 @@ twine-test:
   dependencies:
     - package
   script:
+    - apk add --update py-pip gcc libc-dev
     - pip install --upgrade twine
     - find dist/
     - twine upload -u $TEST_TWINE_USERNAME -p $TEST_TWINE_PASSWORD --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
@@ -63,6 +64,7 @@ twine:
   dependencies:
     - package
   script:
+    - apk add --update py-pip gcc libc-dev
     - pip install --upgrade twine
     - find dist/
     - twine upload dist/*
