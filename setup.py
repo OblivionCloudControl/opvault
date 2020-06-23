@@ -20,7 +20,7 @@ def read(filename):
 
 
 VERSION = os.environ['CI_COMMIT_TAG'] if 'CI_COMMIT_TAG' in os.environ \
-    else os.environ['CI_COMMIT_SHA']
+    else os.environ.get('CI_COMMIT_SHA', 'latest')
 
 setup(
     name='opvault',
@@ -33,7 +33,17 @@ setup(
     url='https://github.com/OblivionCloudControl/opvault',
     provides=['opvault'],
     packages=['opvault'],
-    install_requires=['pycryptodome'],
+    install_requires=[
+        'certifi==2020.6.20',
+        'chardet==3.0.4',
+        'idna==2.9',
+        'Naked==0.1.31',
+        'pycryptodome==3.9.7',
+        'PyYAML==5.3.1',
+        'requests==2.24.0',
+        'shellescape==3.8.1',
+        'urllib3==1.25.9',
+        ],
     long_description=read('README'),
     entry_points={
         'console_scripts': [
