@@ -39,7 +39,7 @@ setup(
         'idna==2.9',
         'Naked==0.1.31',
         'pycryptodome==3.9.7',
-        'PyYAML==5.3.1',
+        'PyYAML==5.4',
         'requests==2.24.0',
         'shellescape==3.8.1',
         'urllib3==1.25.9',
